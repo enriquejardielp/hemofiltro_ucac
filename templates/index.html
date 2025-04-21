@@ -2,136 +2,121 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <title>Calculadora Terapia CRRT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hemofiltro UCAC</title>
 
-    <!-- Vincula el archivo manifest.json -->
-    <link rel="manifest" href="/manifest.json" />
-
-    <!-- Meta etiquetas específicas para dispositivos Apple (iOS) -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Hemofiltro UCAC">
-    <link rel="apple-touch-icon" href="icon.png">
-
-    <meta name="description" content="Calculadora para HDFVVC">
-    <meta name="keywords" content="hemofiltro, UCAC, calculadora, HDFVVC">
-
-    <meta name="theme-color" content="#4CAF50">
-
-    <!-- Estilo CSS -->
+    <!-- Estilos básicos -->
     <style>
         body {
-            font-family: sans-serif;
-            background: #f4f4f4;
-            padding: 20px;
-            max-width: 700px;
-            margin: auto;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
         }
-
+        .container {
+            background: #ffffff;
+            padding: 2rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 500px;
+        }
         h1 {
-            color: #0077aa;
             text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
         }
-
-        form {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
         label {
             display: block;
-            margin-top: 10px;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
         }
-
         input, select {
             width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 6px;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
             border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
         }
-
         input[type="submit"] {
-            background: #0077aa;
+            background-color: #4CAF50;
             color: white;
-            border: none;
-            margin-top: 15px;
+            font-weight: bold;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-
-        .resultado {
-            background: #e0f7fa;
-            padding: 15px;
-            margin-top: 20px;
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .resultados {
+            margin-top: 2rem;
+            background: #f0f4f8;
+            padding: 1rem;
             border-radius: 10px;
-            border-left: 5px solid #0077aa;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
         }
     </style>
+
 </head>
 <body>
-    <h1>Hemofiltro UCAC</h1>
+    <div class="container">
+        <h1>Calculadora CRRT</h1>
 
-    <form method="POST">
-        <label>Peso (kg):</label>
-        <input type="number" name="peso" step="any" required>
+        <form method="post">
+            <label for="peso">Peso (kg):</label>
+            <input type="number" step="any" name="peso" required>
 
-        <label>Hematocrito (%):</label>
-        <input type="number" name="hto" step="any" required>
+            <label for="hto">Hematocrito (%):</label>
+            <input type="number" step="any" name="hto" required>
 
-        <label>Extracción (ml/h):</label>
-        <input type="number" name="extraccion" step="any" required>
+            <label for="ultrafiltrado">Ultrafiltrado (ml/kg/h):</label>
+            <input type="number" step="any" name="ultrafiltrado" required>
 
-        <label>Ultrafiltrado (ml/kg/h):</label>
-        <select name="ultrafiltrado">
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-            <option value="30">30</option>
-            <option value="35">35</option>
-        </select>
+            <label for="dialisis">Dializado (ml/kg/h):</label>
+            <input type="number" step="any" name="dialisis" value="0" required>
 
-        <label>Dializado (ml/kg/h):</label>
-        <select name="dialisis">
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-        </select>
+            <label for="extraccion">Extracción (ml/h):</label>
+            <input type="number" step="any" name="extraccion" required>
 
-        <label>Fracción de Filtración (%):</label>
-        <select name="ff">
-            <option value="10">10</option>
-            <option value="15" selected>15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-        </select>
+            <label for="ff">Factor de Filtración (%):</label>
+            <input type="number" step="any" name="ff" required>
 
-        <label>Reposición:</label>
-        <select name="reposicion">
-            <option value="Pre">Prefiltro</option>
-            <option value="Post" selected>Postfiltro</option>
-            <option value="Mix">Mixta</option>
-        </select>
+            <label for="reposicion">Tipo de reposición:</label>
+            <select name="reposicion" required>
+                <option value="Pre">Prefiltro</option>
+                <option value="Post">Postfiltro</option>
+                <option value="Mix">Mixta</option>
+            </select>
 
-        <input type="submit" value="Calcular">
-    </form>
+            <input type="submit" value="Calcular">
+        </form>
 
-    {% if resultado %}
-        <div class="resultado">
+        {% if resultado %}
             {% if resultado.error %}
-                <p><strong>Error:</strong> {{ resultado.error }}</p>
+                <p class="error">⚠️ Error: {{ resultado.error }}</p>
             {% else %}
-                <p><strong>{{ resultado.reposicion }}</strong></p>
-                <p><strong>Flujo de sangre:</strong> {{ resultado.flujo_sangre }}</p>
-                <p><strong>Dializante:</strong> {{ resultado.dializante }}</p>
-                <p><strong>Extracción:</strong> {{ resultado.extraccion }}</p>
-                <p><strong>Resumen:</strong> {{ resultado.resumen }}</p>
+                <div class="resultados">
+                    <h2>Resultados:</h2>
+                    <p><strong>Resumen:</strong><br>{{ resultado.resumen }}</p>
+                    <p><strong>Técnica:</strong> {{ resultado.tecnica }}</p>
+                    <p><strong>Dializado:</strong> {{ resultado.dializante }}</p>
+                    <p><strong>Flujo de sangre:</strong> {{ resultado.flujo_sangre }}</p>
+                    <p><strong>Extracción:</strong> {{ resultado.extraccion }}</p>
+                    <p><strong>Reposición:</strong><br> {{ resultado.reposicion|safe }}</p>
+                </div>
             {% endif %}
-        </div>
-    {% endif %}
+        {% endif %}
+
+    </div>
 </body>
 </html>
