@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import os
 
 app = Flask(__name__)
 
@@ -26,6 +27,13 @@ def index():
             D = Qd * peso
             o = Qp * 60
 
+            if D == 0:
+                dializado_texto = "Sin dializado (hemofiltración)"
+                tecnica = "CVVH (Hemofiltración venovenosa continua)"
+            else:
+                dializado_texto = f"{round(D)} ml/h de dializado"
+                tecnica = "CVVHDF (Hemodiafiltración venovenosa continua)"
+
             if Repos == "Pre":
                 Qr = ((100 * extraccion - FF * o) / (FF - 100))
                 rep_texto = f"Reposición Prefiltro: {round(Qr)} ml/h"
@@ -43,9 +51,10 @@ def index():
             resultado = {
                 "reposicion": rep_texto,
                 "flujo_sangre": f"{round(Qs)} ml/min",
-                "dializante": f"{round(D)} ml/h",
+                "dializante": dializado_texto,
                 "extraccion": f"{extraccion} ml/h",
-                "resumen": f"Peso: {peso} kg, Hto: {hto} %, FF: {FF} %, Diálisis: {Qd} ml/kg/h, Ultrafiltrado: {C} ml/kg/h"
+                "resumen": f"Peso: {peso} kg, Hto: {hto} %, FF: {FF} %, Diálisis: {Qd} ml/kg/h, Ultrafiltrado: {C} ml/kg/h",
+                "tecnica": tecnica
             }
 
         except Exception as e:
@@ -53,8 +62,6 @@ def index():
 
     return render_template("index.html", resultado=resultado)
 
-
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # usa el puerto que Render indique
+    port = int(os.environ.get("PORT", 8000))  # Usa el puerto que Render indique
     app.run(host="0.0.0.0", port=port, debug=True)
-
